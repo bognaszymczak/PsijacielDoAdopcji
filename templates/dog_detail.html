@@ -19,7 +19,7 @@
         <p class="lead">{{ dog.description }}</p>
 
         <div class="mt-4">
-            <a href="#" class="btn btn-success btn-lg">🐶 Adoptuj mnie!</a>
+            <a href="{% url 'adopt_dog' dog.id %}" class="btn btn-success btn-lg">🐶 Adoptuj mnie!</a>
             <a href="{% url 'dog_list' %}" class="btn btn-outline-secondary btn-lg ms-2">Powrót do listy</a>
         </div>
     </div>

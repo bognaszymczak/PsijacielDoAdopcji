@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h3>Wniosek o adopcję: {{ dog.name }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        {% if dog.image %}
+                        <img src="{{ dog.image.url }}" class="img-fluid rounded" alt="{{ dog.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <p>Dziękujemy za zainteresowanie adopcją! Prosimy o podanie numeru telefonu i krótkiej wiadomości. Skontaktujemy się z Tobą.</p>
+                    </div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label"><strong>{{ field.label }}</strong></label>
+                            {{ field }} </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-success btn-lg w-100">Wyślij wniosek</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+</style>
+{% endblock %}
