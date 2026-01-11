@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-12 text-center mb-4">
+        <h1>Nasze Psy do Adopcji</h1>
+        <p class="lead">Znajdź swojego nowego psijaciela!</p>
+    </div>
+</div>
+
+<div class="row">
+    {% for dog in dogs %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            {% if dog.image %}
+                <img src="{{ dog.image.url }}" class="card-img-top" alt="{{ dog.name }}">
+            {% else %}
+                <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white">
+                    Brak zdjęcia
+                </div>
+            {% endif %}
+
+            <div class="card-body">
+                <h5 class="card-title">{{ dog.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ dog.breed.name }} | {{ dog.age }} lat(a)</h6>
+                <p class="card-text">{{ dog.description|truncatewords:20 }}</p>
+                <a href="#" class="btn btn-primary">Zobacz szczegóły</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+        <div class="alert alert-info">
+            Aktualnie nie mamy żadnych psów do adopcji. Zajrzyj później!
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
