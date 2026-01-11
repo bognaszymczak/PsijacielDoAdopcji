@@ -24,7 +24,7 @@
                 <h5 class="card-title">{{ dog.name }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{ dog.breed.name }} | {{ dog.age }} lat(a)</h6>
                 <p class="card-text">{{ dog.description|truncatewords:20 }}</p>
-                <a href="#" class="btn btn-primary">Zobacz szczegóły</a>
+                <a href="{% url 'dog_detail' dog.id %}" class="btn btn-primary">Zobacz szczegóły</a>
             </div>
         </div>
     </div>
