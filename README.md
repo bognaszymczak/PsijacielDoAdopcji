@@ -1,95 +1,40 @@
 PL
-Instrukcja Uruchomienia (Setup)
+Instrukcja uruchomienia
 
-Aby uruchomić projekt lokalnie, wykonaj poniższe kroki:
+1. Pobranie kodu
+Otwórz terminal i sklonuj repozytorium:
+(Bash)
+git clone [https://github.com/bognaszymczak/PsijacielDoAdopcji.git](https://github.com/bognaszymczak/PsijacielDoAdopcji.git)
+cd PsijacielDoAdopcji
 
-1.  **Klonowanie repozytorium:**
-    ```bash
-    git clone [https://github.com/TWOJA_NAZWA_UZYTKOWNIKA/PsijacielDoAdopcji.git](https://github.com/TWOJA_NAZWA_UZYTKOWNIKA/PsijacielDoAdopcji.git)
-    cd PsijacielDoAdopcji
-    ```
+2. Otwórz i aktywuj środowisko:
+(Windows Bash)
+python -m venv venv
+source venv/Scripts/activate
 
-2.  **Utworzenie wirtualnego środowiska (zalecane):**
-    ```bash
-    # Windows
-    python -m venv venv
-    venv\Scripts\activate
-    
-    # macOS/Linux
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
+(Windows PoweShell)
+python -m venv venv
+venv\Scripts\activate
 
-3.  **Instalacja zależności:**
-    ```bash
-    pip install -r requirements.txt
-    ```
+(MacOS/Linux)
+python3 -m venv venv
+source venv/bin/activate
 
-4.  **Przygotowanie bazy danych:**
-    ```bash
-    python manage.py migrate
-    ```
+4. Zainstaluj wymagane biblioteki:
+pip install -r requirements.txt
 
-5.  **Utworzenie konta administratora (opcjonalnie):**
-    ```bash
-    python manage.py createsuperuser
-    ```
+5. Konfiguracja bazy danych:
+python manage.py migrate
 
-6.  **(Opcjonalnie) Zaimportowanie przykładowych psów z API:**
-    ```bash
-    python manage.py import_dogs
-    ```
+6. Stwórz konto administratora:
+(login/hasło)
+python manage.py createsuperuser
 
-7.  **Uruchomienie serwera:**
-    ```bash
-    python manage.py runserver
-    ```
-    Aplikacja będzie dostępna pod adresem: `http://127.0.0.1:8000/`
+7. Pobranie przykładowych psów z API
+python manage.py import_dogs
 
-    EN
-   Setup Instructions
+8. Uruchom server:
+python manage.py runserver
 
-To run the project locally, follow these steps:
-
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/YOUR_USERNAME/PsijacielDoAdopcji.git](https://github.com/YOUR_USERNAME/PsijacielDoAdopcji.git)
-    cd PsijacielDoAdopcji
-    ```
-
-2.  **Create a virtual environment (recommended):**
-    ```bash
-    # Windows
-    python -m venv venv
-    venv\Scripts\activate
-    
-    # macOS/Linux
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-
-3.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4.  **Database setup:**
-    ```bash
-    python manage.py migrate
-    ```
-
-5.  **Create an administrator account (optional):**
-    ```bash
-    python manage.py createsuperuser
-    ```
-
-6.  **(Optional) Import sample dogs from external API:**
-    ```bash
-    python manage.py import_dogs
-    ```
-
-7.  **Run the server:**
-    ```bash
-    python manage.py runserver
-    ```
-    The application will be accessible at: `http://127.0.0.1:8000/`
+9. Strona jest dostępna pod adresem:
+http://127.0.0.1:8000/
