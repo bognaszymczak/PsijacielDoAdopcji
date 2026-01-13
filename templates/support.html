@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-header bg-warning">
+        <h3 class="mb-0">❤ Wesprzyj nas</h3>
+      </div>
+      <div class="card-body">
+        <p>Dziękujemy, że chcesz pomóc! Możesz wesprzeć schronisko na kilka sposobów:</p>
+
+        <div class="mb-3">
+          <h5>💸 Darowizna</h5>
+          <p class="mb-1">Nr konta:</p>
+          <code>00 0000 0000 0000 0000 0000 0000</code>
+        </div>
+
+        <div class="mb-3">
+          <h5>📱 BLIK</h5>
+          <code>123 456 123</code>
+        </div>
+
+        <div class="mb-3">
+          <h5>🤝 Wolontariat</h5>
+          <p>Napisz do nas: <code>kontakt@schronisko.pl</code></p>
+        </div>
+
+        <a href="{% url 'dog_list' %}" class="btn btn-dark">Wróć do listy psów</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

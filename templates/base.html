@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Psijaciel Do Adopcji</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body { background-color: #f8f9fa; }
         .card-img-top { height: 250px; object-fit: cover; }
@@ -13,43 +15,57 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">🐾 Psijaciel Do Adopcji</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Lista Psów</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'dog_list' %}">🐾 Psijaciel Do Adopcji</a>
 
-                    {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="#">Moje Konto</a></li>
-                        <li class="nav-item">
-                            <form action="{% url 'logout' %}" method="post" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="btn nav-link" style="border:none; background:none;">Wyloguj ({{ user.username }})</button>
-                            </form>
-                        </li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="/admin/">Logowanie (Admin)</a></li>
-                    {% endif %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                    <li class="nav-item"><a class="btn btn-warning ms-2" href="#">❤ Wesprzyj nas</a></li>
-                </ul>
-            </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dog_list' %}">Lista Psów</a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link disabled">Witaj, {{ user.username }}</span>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn nav-link" style="border:none; background:none;">
+                                Wyloguj
+                            </button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Zaloguj</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">Rejestracja</a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item ms-lg-2">
+                    <a class="btn btn-warning ms-2" href="{% url 'support' %}">❤ Wesprzyj nas</a>
+                </li>
+            </ul>
         </div>
-    </nav>
-
-    <div class="container" style="min-height: 80vh;">
-        {% block content %}
-        {% endblock %}
     </div>
+</nav>
 
-    <footer class="bg-dark text-white text-center py-3 mt-4">
-        <p class="mb-0">&copy; 2025 Psijaciel Do Adopcji. Projekt studencki.</p>
-    </footer>
+<div class="container" style="min-height: 80vh;">
+    {% block content %}{% endblock %}
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<footer class="bg-dark text-white text-center py-3 mt-4">
+    <p class="mb-0">&copy; 2025 Psijaciel Do Adopcji. Projekt studencki.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
