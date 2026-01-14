@@ -1,39 +1,115 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row mt-4">
-    <div class="col-12 text-center mb-4">
-        <h1>Nasze Psy do Adopcji</h1>
-        <p class="lead">Znajdź swojego nowego psijaciela!</p>
-    </div>
+
+<div class="hero-section text-center mb-4">
+    <h1 class="display-5">🐾 Psy do adopcji</h1>
+    <p class="lead">Znajdź swojego nowego przyjaciela</p>
 </div>
 
+<!-- FILTROWANIE / WYSZUKIWANIE -->
+<form method="get" class="card p-3 mb-4 shadow-sm">
+    <div class="row g-3 align-items-end">
+
+        <div class="col-md-4">
+            <label class="form-label">Szukaj po imieniu</label>
+            <input
+                type="text"
+                name="q"
+                value="{{ q }}"
+                class="form-control"
+                placeholder="np. Reksio"
+            >
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Rasa</label>
+            <select name="breed" class="form-select">
+                <option value="">Wszystkie</option>
+                {% for b in breeds %}
+                    <option value="{{ b.id }}"
+                        {% if selected_breed|stringformat:"s" == b.id|stringformat:"s" %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ b.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label">Wiek od</label>
+            <input
+                type="number"
+                min="0"
+                name="min_age"
+                value="{{ min_age }}"
+                class="form-control"
+            >
+        </div>
+
+        <div class="col-md-2">
+            <label class="form-label">Wiek do</label>
+            <input
+                type="number"
+                min="0"
+                name="max_age"
+                value="{{ max_age }}"
+                class="form-control"
+            >
+        </div>
+
+        <div class="col-12 d-flex gap-2 mt-2">
+            <button type="submit" class="btn btn-primary">
+                🔍 Filtruj
+            </button>
+            <a href="{% url 'dog_list' %}" class="btn btn-outline-secondary">
+                ♻ Wyczyść
+            </a>
+        </div>
+
+    </div>
+</form>
+
+<!-- LISTA PSÓW -->
 <div class="row">
     {% for dog in dogs %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-            {% if dog.image %}
-                <img src="{{ dog.image.url }}" class="card-img-top" alt="{{ dog.name }}">
-            {% else %}
-                <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white">
-                    Brak zdjęcia
-                </div>
-            {% endif %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
 
-            <div class="card-body">
-                <h5 class="card-title">{{ dog.name }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{ dog.breed.name }} | {{ dog.age }} lat(a)</h6>
-                <p class="card-text">{{ dog.description|truncatewords:20 }}</p>
-                <a href="{% url 'dog_detail' dog.id %}" class="btn btn-primary">Zobacz szczegóły</a>
+                {% if dog.image %}
+                    <img src="{{ dog.image.url }}" class="card-img-top" alt="{{ dog.name }}">
+                {% else %}
+                    <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white">
+                        Brak zdjęcia
+                    </div>
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ dog.name }}</h5>
+                    <p class="card-text mb-1">
+                        <strong>Rasa:</strong> {{ dog.breed.name }}
+                    </p>
+                    <p class="card-text mb-2">
+                        <strong>Wiek:</strong> {{ dog.age }} lat
+                    </p>
+                    <p class="card-text">
+                        {{ dog.description|truncatechars:100 }}
+                    </p>
+
+                    <a href="{% url 'dog_detail' dog.id %}" class="btn btn-success mt-auto">
+                        🐶 Zobacz szczegóły
+                    </a>
+                </div>
+
             </div>
         </div>
-    </div>
     {% empty %}
-    <div class="col-12 text-center">
-        <div class="alert alert-info">
-            Aktualnie nie mamy żadnych psów do adopcji. Zajrzyj później!
+        <div class="col-12 text-center">
+            <p class="fs-5 text-muted">Brak psów spełniających kryteria.</p>
         </div>
-    </div>
     {% endfor %}
 </div>
+
 {% endblock %}
