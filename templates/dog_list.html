@@ -1,114 +1,148 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<div class="hero-section text-center mb-4">
-    <h1 class="display-5">🐾 Psy do adopcji</h1>
-    <p class="lead">Znajdź swojego nowego przyjaciela</p>
+<style>
+    .hero-banner {
+        min-height: 350px;
+        border-radius: 30px;
+        margin-bottom: 50px;
+        position: relative;
+        background-image: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?q=80&w=1920&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 251, 242, 0.4), rgba(255, 159, 67, 0.1));
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.60);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(3px);
+        padding: 40px 60px;
+        border-radius: 40px;
+        box-shadow: 0 20px 50px 0 rgba(31, 38, 135, 0.1);
+        border: 0px solid rgba(255, 255, 255, 0.5);
+        display: inline-block;
+    }
+
+    .hero-big-logo {
+        max-width: 350px;
+        width: 100%;
+        height: auto;
+        -webkit-mask-image: radial-gradient(ellipse at center, black 50%, transparent 70%);
+        mask-image: radial-gradient(ellipse at center, black 50%, transparent 70%);
+        opacity: 1;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 25px;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .btn {
+        transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+    }
+</style>
+
+<div class="hero-banner">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="glass-card">
+            <img src="{% static 'new_logo.png' %}" alt="Psijaciel Do Adopcji" class="hero-big-logo">
+            <p class="lead mt-3 mb-0" style="font-weight: 700; color: #555; letter-spacing: 1px;">
+                ZNAJDŹ SWOJEGO PRZYJACIELA
+            </p>
+        </div>
+    </div>
 </div>
 
-<!-- FILTROWANIE / WYSZUKIWANIE -->
-<form method="get" class="card p-3 mb-4 shadow-sm">
+<form method="get" class="card p-4 mb-5 shadow-sm">
     <div class="row g-3 align-items-end">
-
         <div class="col-md-4">
-            <label class="form-label">Szukaj po imieniu</label>
-            <input
-                type="text"
-                name="q"
-                value="{{ q }}"
-                class="form-control"
-                placeholder="np. Reksio"
-            >
+            <label class="form-label fw-bold">Szukaj po imieniu</label>
+            <input type="text" name="q" value="{{ q }}" class="form-control form-control-lg" placeholder="np. Reksio">
         </div>
-
         <div class="col-md-4">
-            <label class="form-label">Rasa</label>
-            <select name="breed" class="form-select">
-                <option value="">Wszystkie</option>
+            <label class="form-label fw-bold">Rasa</label>
+            <select name="breed" class="form-select form-select-lg">
+                <option value="">Wszystkie rasy</option>
                 {% for b in breeds %}
-                    <option value="{{ b.id }}"
-                        {% if selected_breed|stringformat:"s" == b.id|stringformat:"s" %}
-                            selected
-                        {% endif %}
-                    >
+                    <option value="{{ b.id }}" {% if selected_breed|stringformat:"s" == b.id|stringformat:"s" %}selected{% endif %}>
                         {{ b.name }}
                     </option>
                 {% endfor %}
             </select>
         </div>
-
-        <div class="col-md-2">
-            <label class="form-label">Wiek od</label>
-            <input
-                type="number"
-                min="0"
-                name="min_age"
-                value="{{ min_age }}"
-                class="form-control"
-            >
+        <div class="col-md-4 d-flex gap-2">
+             <div class="flex-grow-1">
+                 <label class="form-label fw-bold">Wiek od</label>
+                 <input type="number" min="0" name="min_age" value="{{ min_age }}" class="form-control form-control-lg">
+             </div>
+             <div class="flex-grow-1">
+                 <label class="form-label fw-bold">Wiek do</label>
+                 <input type="number" min="0" name="max_age" value="{{ max_age }}" class="form-control form-control-lg">
+             </div>
         </div>
-
-        <div class="col-md-2">
-            <label class="form-label">Wiek do</label>
-            <input
-                type="number"
-                min="0"
-                name="max_age"
-                value="{{ max_age }}"
-                class="form-control"
-            >
+        <div class="col-12 mt-4 text-center">
+            <button type="submit" class="btn btn-primary px-5 btn-lg shadow">🔍 Szukaj</button>
+            <a href="{% url 'dog_list' %}" class="btn btn-outline-secondary px-4 btn-lg ms-2">Wyczyść</a>
         </div>
-
-        <div class="col-12 d-flex gap-2 mt-2">
-            <button type="submit" class="btn btn-primary">
-                🔍 Filtruj
-            </button>
-            <a href="{% url 'dog_list' %}" class="btn btn-outline-secondary">
-                ♻ Wyczyść
-            </a>
-        </div>
-
     </div>
 </form>
 
-<!-- LISTA PSÓW -->
-<div class="row">
+<div class="row g-4">
     {% for dog in dogs %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-
-                {% if dog.image %}
-                    <img src="{{ dog.image.url }}" class="card-img-top" alt="{{ dog.name }}">
-                {% else %}
-                    <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white">
-                        Brak zdjęcia
-                    </div>
-                {% endif %}
-
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ dog.name }}</h5>
-                    <p class="card-text mb-1">
-                        <strong>Rasa:</strong> {{ dog.breed.name }}
-                    </p>
-                    <p class="card-text mb-2">
-                        <strong>Wiek:</strong> {{ dog.age }} lat
-                    </p>
-                    <p class="card-text">
-                        {{ dog.description|truncatechars:100 }}
-                    </p>
-
-                    <a href="{% url 'dog_detail' dog.id %}" class="btn btn-success mt-auto">
-                        🐶 Zobacz szczegóły
-                    </a>
+            <div class="card h-100 shadow-sm border-0">
+                <div style="height: 250px; overflow: hidden; position: relative; border-radius: 20px 20px 0 0;">
+                    {% if dog.image %}
+                        <img src="{{ dog.image.url }}" class="card-img-top w-100 h-100" style="object-fit: cover;" alt="{{ dog.name }}">
+                    {% else %}
+                        <div class="card-img-top w-100 h-100 d-flex align-items-center justify-content-center bg-light text-muted">Brak zdjęcia</div>
+                    {% endif %}
                 </div>
-
+                <div class="card-body d-flex flex-column p-4">
+                    <h3 class="card-title fw-bold">{{ dog.name }}</h3>
+                    <div class="d-flex justify-content-between text-muted mb-3 small fw-bold text-uppercase">
+                        <span>{{ dog.breed.name }}</span>
+                        <span>{{ dog.age }} lat(a)</span>
+                    </div>
+                    <p class="card-text text-muted mb-4">{{ dog.description|truncatechars:80 }}</p>
+                    <a href="{% url 'dog_detail' dog.id %}" class="btn btn-primary w-100 mt-auto rounded-pill py-2 fw-bold">Poznaj mnie! 🐾</a>
+                </div>
             </div>
         </div>
     {% empty %}
-        <div class="col-12 text-center">
-            <p class="fs-5 text-muted">Brak psów spełniających kryteria.</p>
-        </div>
+        <div class="col-12 text-center py-5"><h3 class="text-muted">Brak piesków.</h3></div>
     {% endfor %}
 </div>
 
